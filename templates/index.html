@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Management</title>
+    <script>
+        async function fetchStudents() {
+            const response = await fetch('/students');
+            const students = await response.json();
+            const studentList = document.getElementById('student-list');
+            studentList.innerHTML = '';
+            students.forEach(student => {
+                const li = document.createElement('li');
+                li.textContent = `${student.student_id}: ${student.first_name} ${student.last_name} - ${student.dob} - $${student.amount_due}`;
+                studentList.appendChild(li);
+            });
+        }
+
+        window.onload = function() {
+            fetchStudents();
+        }
+    </script>
+</head>
+<body>
+    <h1>Student Management</h1>
+    <ul id="student-list"></ul>
+</body>
+</html>
