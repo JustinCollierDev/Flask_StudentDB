@@ -16,7 +16,11 @@ def students():
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
         cursor.execute("SELECT * FROM students")
-        students = cursor.fetchall()
+        students = cursor.fetchall()  # Make sure students is not None
+
+        if not students:
+            students = []  # handling empty students GET
+
         cursor.close()
         connection.close()
 
