@@ -1,10 +1,7 @@
 import os
 import mysql.connector
 from urllib.parse import urlparse
-from dotenv import load_dotenv
 
-# Load environment variables from .env file
-load_dotenv()
 
 def get_db_connection():
     db_url = os.environ.get('JAWSDB_URL')  # Fetch JAWSDB_URL from environment variables
