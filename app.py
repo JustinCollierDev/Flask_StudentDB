@@ -16,20 +16,19 @@ def students():
         connection = get_db_connection()
         cursor = connection.cursor(dictionary=True)
         cursor.execute("SELECT * FROM students")
-        students = cursor.fetchall()  # Make sure students is not None
+        students = cursor.fetchall()
 
         if not students:
-            students = []  # handling empty students GET
+            students = []
 
         cursor.close()
         connection.close()
 
-        # CRUD - Students Page (/students) - GET (Read)
-        # We pass in our list of Students to the render template to display them under our form.
         return render_template('students.html', students=students)
 
     except Exception as e:
-        return f"Error: {str(e)}"
+        print(f"Error fetching students: {e}")
+        return "Error fetching students", 500  # Error response for debugging
 
 # CRUD : Student Page
 # Students Page (/students) - POST (CREATE)
