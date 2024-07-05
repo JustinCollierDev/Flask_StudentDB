@@ -12,73 +12,85 @@ def index():
 # Navigate to Students Page (/students)
 @app.route('/students')
 def students():
-    connection = get_db_connection()
-    cursor = connection.cursor(dictionary=True)
-    cursor.execute("SELECT * FROM students")
-    students = cursor.fetchall()
-    cursor.close()
-    connection.close()
+    try:
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM students")
+        students = cursor.fetchall()
+        cursor.close()
+        connection.close()
 
-    # CRUD - Students Page (/students) - GET (Read)
-    # We pass in our list of Students to the render template to display them under our form.
-    return render_template('students.html', students=students)
+        # CRUD - Students Page (/students) - GET (Read)
+        # We pass in our list of Students to the render template to display them under our form.
+        return render_template('students.html', students=students)
+
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 # CRUD : Student Page
 # Students Page (/students) - POST (CREATE)
 @app.route('/students/create', methods=['POST'])
 def create_student():
-    # Request form data
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    dob = request.form['dob']
-    amount_due = request.form['amount_due']
-    # Connect to database
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    # Insert into database
-    sql = "INSERT INTO students (first_name, last_name, dob, amount_due) VALUES (%s, %s, %s, %s)"
-    values = (first_name, last_name, dob, amount_due)
-    cursor.execute(sql, values)
-    connection.commit()
-    cursor.close()
-    connection.close()
-    # Redirect to Students Page (/students)
-    return redirect(url_for('students'))
+    try:
+        # Request form data
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        dob = request.form['dob']
+        amount_due = request.form['amount_due']
+        # Connect to database
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        # Insert into database
+        sql = "INSERT INTO students (first_name, last_name, dob, amount_due) VALUES (%s, %s, %s, %s)"
+        values = (first_name, last_name, dob, amount_due)
+        cursor.execute(sql, values)
+        connection.commit()
+        cursor.close()
+        connection.close()
+        # Redirect to Students Page (/students)
+        return redirect(url_for('students'))
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 # Students Page (/students) - PUT (Update)
 @app.route('/students/update/<int:student_id>', methods=['POST'])
 def update_student(student_id):
-    # Request form data
-    first_name = request.form['first_name']
-    last_name = request.form['last_name']
-    dob = request.form['dob']
-    amount_due = request.form['amount_due']
-    # Connect to database
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    sql = "UPDATE students SET first_name = %s, last_name = %s, dob = %s, amount_due = %s WHERE student_id = %s"
-    values = (first_name, last_name, dob, amount_due, student_id)
-    cursor.execute(sql, values)
-    connection.commit()
-    cursor.close()
-    connection.close()
-    # Redirect to Students Page (/students)
-    return redirect(url_for('students'))
+    try:
+        # Request form data
+        first_name = request.form['first_name']
+        last_name = request.form['last_name']
+        dob = request.form['dob']
+        amount_due = request.form['amount_due']
+        # Connect to database
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        sql = "UPDATE students SET first_name = %s, last_name = %s, dob = %s, amount_due = %s WHERE student_id = %s"
+        values = (first_name, last_name, dob, amount_due, student_id)
+        cursor.execute(sql, values)
+        connection.commit()
+        cursor.close()
+        connection.close()
+        # Redirect to Students Page (/students)
+        return redirect(url_for('students'))
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 # Students Page (/students) - DELETE (DELETE)
 @app.route('/students/delete/<int:student_id>', methods=['POST'])
 def delete_student(student_id):
-    # Connect to database
-    connection = get_db_connection()
-    cursor = connection.cursor()
-    # Query to delete student(s) with matching ID value
-    cursor.execute("DELETE FROM students WHERE student_id = %s", (student_id,))
-    connection.commit()
-    cursor.close()
-    connection.close()
-    # Redirect to Students Page (/students)
-    return redirect(url_for('students'))
-
+    try:
+        # Connect to database
+        connection = get_db_connection()
+        cursor = connection.cursor()
+        # Query to delete student(s) with matching ID value
+        cursor.execute("DELETE FROM students WHERE student_id = %s", (student_id,))
+        connection.commit()
+        cursor.close()
+        connection.close()
+        # Redirect to Students Page (/students)
+        return redirect(url_for('students'))
+    except Exception as e:
+        return f"Error: {str(e)}"
 
 # Running our Flask App
 if __name__ == '__main__':
