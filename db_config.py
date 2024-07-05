@@ -8,8 +8,14 @@ load_dotenv()
 
 def get_db_connection():
     db_url = os.environ.get('JAWSDB_URL')  # Fetch JAWSDB_URL from environment variables
+    print(f"DEBUG: db_url={db_url}")
+
+    if not db_url:
+        raise Exception('JAWSDB_URL not found in environment variables')
+
     if db_url:
         url = urlparse(db_url)
+        print(f"DEBUG: url={url}")
         connection = mysql.connector.connect(
             host=url.hostname,
             user=url.username,
