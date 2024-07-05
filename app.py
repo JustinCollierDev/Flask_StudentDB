@@ -97,5 +97,11 @@ def delete_student(student_id):
 
 # Running our Flask App
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))  # Use 5000 as default if PORT is not defined
-    app.run(host='0.0.0.0', port=port, debug=True)
+    try:
+        conn = get_db_connection()
+        print("Successfully connected to the database!")
+        conn.close()
+        port = int(os.environ.get('PORT', 5000))  # Use 5000 as default if PORT is not defined
+        app.run(host='0.0.0.0', port=port, debug=True)
+    except Exception as e:
+        print(f"Failed to connect to the database: {str(e)}")
