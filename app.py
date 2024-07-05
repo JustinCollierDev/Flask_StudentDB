@@ -1,5 +1,6 @@
 from flask import Flask, request, render_template, redirect, url_for
 from db_config import get_db_connection # This is our database connection package/function
+import os
 
 app = Flask(__name__)
 
@@ -81,4 +82,5 @@ def delete_student(student_id):
 
 # Running our Flask App
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.environ.get('PORT', 5000))  # Use 5000 as default if PORT is not defined
+    app.run(host='0.0.0.0', port=port, debug=True)
